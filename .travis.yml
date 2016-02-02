@@ -1,0 +1,22 @@
+language: java
+jdk:
+- oraclejdk8
+install: true
+script:
+- gradle zipMap
+before_deploy:
+- git config --global user.email "tripleabuilderbot@gmail.com" 
+- git config --global user.name "tripleabuilderbot"
+- export MAP_TAGGED_VERSION="$MAP_VERSION.$TRAVIS_BUILD_NUMBER"
+- git tag $MAP_TAGGED_VERSION -a -m "$MAP_TAGGED_VERSION"
+- git push -q https://$GITHUB_PERSONAL_ACCESS_TOKEN_FOR_TRAVIS@github.com/triplea-maps/$REPO_NAME --tags
+deploy:
+  provider: releases
+  api_key:
+    secure: jHU89aX/Jg1bSvKgCatlo3m+RUN/+rYx6B5v1ck2ENyGugKlSMtIWA5f2oV29K2vOVlN/nzSkO+dy570ohrES4F1V2CTQp+pTLB3Ihx9ZJJTRYO8/E+g+sQfD/C4wIAHJTxGfyRFDHym/XIvmHrQAh0LfoNb8kNFVfZ8fsqDae072IXjgDY95Yca/mQYUi5F4iugFwauER2UPYhTzMa1H/lZ8kn/p6jKmTFwS7LjxyT+Mn32QUeL1nRadsRXaDx331QTqBhV925vqRf7pcJnRSQhEsqZ28DirronXxrgmgK9cS6O8HyzxjPH0quotzKe69aPQg3yb3+RWBPlU7n4vzMr+Q1X+Nibh7Kn28k9oRa390NyL0KnyiNvLaBG9Mc3wjSbTMxvbuJBSfMvGgyLC3cotAY27BL1f2kHwxwWvzIHT7k49zVsixML0UHYc20rZ2BdIvM07GendPcO3wizw9SPw3nglIqNHIJaLwHIbcwNkg3oXS4J1bYXKqCY5HjVgp+XKfrY+n87hEfkcS1oT7zOEAp+cISK5D59F7KGr6w+MeNmn+7LuvIYjKxVh8ybGtGCtBgrrR4WKRz/ljk/SJwrd+eQwEw5Yr28NeRkn2y66+R7jRu9PliSw/z7CBFDR0JYj11enpraQlBcY599ojBQofIfFcA5nOlMSKl87AU=
+  file: "$REPO_NAME.zip"
+  skip_cleanup: true
+  prerelease: true
+  on:
+    tags: false
+    all_branches: true
