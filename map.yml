@@ -1,0 +1,4 @@
+map_name: europe
+games:
+- {game_name: Europe - Alpha, file_name: europe_incomplete.xml}
+- {game_name: Europe - Alpha v3 Rules, file_name: europe_incomplete_v3.xml}
